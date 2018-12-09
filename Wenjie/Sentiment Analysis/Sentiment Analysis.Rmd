@@ -1,0 +1,56 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(NLP)
+library(tm)
+library(sentimentr)
+library(wordcloud)
+#install.packages("wordcloud")
+```
+```{r}
+songdata <- read.csv("/Users/sunevan/Dropbox/Fall 2018/Capstone Project/Finalized Data 11-25/final_matrix_with_writers.csv")
+```
+
+```{r}
+songdata$lyrics <- tolower(songdata$lyrics)
+songdata$lyrics <- gsub("[^0-9A-Za-z///' ]", "", songdata$lyrics)
+```
+
+```{r}
+Corpus <- Corpus(VectorSource(songdata$lyrics))
+#remove puctuation
+Corpus <- tm_map(Corpus, removePunctuation)
+#remove numbers
+Corpus <- tm_map(Corpus, removeNumbers)
+#strip white space
+Corpus <- tm_map(Corpus, stripWhitespace)
+#remove stopwords
+myStopwords <- c(stopwords('english'))
+Corpus <- tm_map(Corpus, removeWords, myStopwords)
+
+```
+
+```{r}
+wordcloud(Corpus, scale=c(5,.5), max.words=100, random.order=FALSE, 
+          rot.per=0.35, use.r.layout=FALSE, colors=brewer.pal(8, "Dark2"))
+```
+
+```{r}
+sentimentdata <- sentimentr::sentiment(songdata$lyrics)
+```
+
+```{r}
+
+write.csv(sentimentdata, file = "sentimentdata.csv")
+```
+
+```{r}
+writeLines("td, th { padding : 6px } th { background-color : brown ; color : white; border : 1px solid white; } td { color : brown ; border : 1px solid brown }", con = "mystyle.css")
+df1 <- knitr::kable(head(songdata[order(sentimentdata$sentiment, decreasing = T),c(1,2)], 25), format = "html")
+row.names(df1) <- NULL
+print(df1, row.names = F)
+```
+
