@@ -5,5 +5,7 @@ We are using machine learning techniques to take 14k Warner Music songs and lyri
 Directory:
 
 (1) Archive: All experiments and previous work
+
 (2) Model: Siamese CNN on audio, CNN on Lyrics, Decision Tree and Stacked Model
+
 (3) Data Cleaning: Data extraction and processing; exploratory models: Repetition Analysis, Sentiment Analysis, Topic Modeling
