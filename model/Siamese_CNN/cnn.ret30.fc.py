@@ -30,7 +30,7 @@ TIMESPAN = 60
 RET_TIMESPAN = 29
 
 
-GPU_USAGE = 0.4
+GPU_USAGE = 0.5 #0.4
 
 
 def leaky_relu(x, alpha=0.1):
